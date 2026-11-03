@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centinela · Alertas de incendios en Guerrero</title>
+<meta name="description" content="Consola de monitoreo de incendios para el estado de Guerrero con detecciones casi en tiempo real de los sensores VIIRS y MODIS de NASA FIRMS.">
+<meta name="theme-color" content="#0A3C48">
+<script src="assets/js/tema.js"></script>
+<script src="assets/js/demo-estatica.js"></script>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://server.arcgisonline.com">
+<link rel="preconnect" href="https://gibs.earthdata.nasa.gov">
+<link rel="preload" href="assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/vendor/leaflet/1.9.4/leaflet.css">
+<link rel="stylesheet" href="assets/css/centinela.css">
+<link rel="stylesheet" href="assets/css/tutorial.css">
+</head>
+<body>
+<a class="skip-link" href="#panel-alertas">Saltar al panel de alertas</a>
+<div class="app">
+
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <rect class="tile" x="0" y="0" width="40" height="40" rx="12"/>
+        <ellipse class="ring" cx="20" cy="26" rx="14" ry="9"/>
+        <ellipse class="ring ring--in" cx="20" cy="26" rx="8" ry="5"/>
+        <path class="flame" d="M20 6c2 3.6 5.4 5.6 5.4 9.9 0 3.3-2.4 5.6-5.4 5.6s-5.4-2.3-5.4-5.6c0-2.7 2-4.3 3-6.9.4 1.8 1.3 2.8 2.4 3.6.6-2.2-.4-4.4 0-6.6z"/>
+      </svg>
+      <div class="brand__text">
+        <h1 class="brand__name" translate="no">Centinela</h1>
+        <span class="brand__sub">Alertas de incendios · Guerrero</span>
+      </div>
+    </div>
+
+
+    <div class="topbar__spacer"></div>
+
+    <div class="regional" title="Resume la severidad de todas las alertas activas en el estado">
+      <span class="regional__dot" id="regional-dot" aria-hidden="true"></span>
+      <span class="regional__text">Peligro regional:</span>
+      <span class="regional__level" id="regional-level">—</span>
+    </div>
+
+    <div class="simctl">
+      <div class="seg" role="group" aria-label="Ventana de tiempo de las detecciones">
+        <button type="button" data-win="24" aria-pressed="true">24 h</button>
+        <button type="button" data-win="48" aria-pressed="false">48 h</button>
+        <button type="button" data-win="72" aria-pressed="false">72 h</button>
+      </div>
+      <div class="datectl" role="group" aria-label="Fecha de las imágenes y detecciones">
+        <button type="button" class="datectl__live" id="live-btn" aria-pressed="true" title="Ver lo último que NASA tiene publicado. El punto late solo si algún satélite leyó en la última hora.">
+          <span class="datectl__dot" aria-hidden="true"></span><span class="datectl__txt">En vivo</span><span class="datectl__age" id="live-age"></span>
+        </button>
+        <button type="button" class="datectl__date" id="date-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="cal-pop" title="Consultar un día pasado; 24/48/72 h abarca 1, 2 o 3 días hasta esa fecha">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span id="date-label">Elegir fecha</span>
+        </button>
+      </div>
+      <a class="btn" href="registro.html"><svg class="btn__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9a6 6 0 1112 0c0 5 2 6 2 7H4c0-1 2-2 2-7zM10 20a2 2 0 004 0"/></svg>Avisos por correo</a>
+      <button class="btn btn--primary rbtn" id="refresh" type="button" aria-busy="false">
+        <span class="rbtn__ico" aria-hidden="true">
+          <svg class="i-idle" viewBox="0 0 24 24" focusable="false"><path d="M20 11a8 8 0 10-2.3 5.7M20 5v6h-6"/></svg>
+          <svg class="i-spin" viewBox="0 0 24 24" focusable="false"><circle class="spin__track" cx="12" cy="12" r="8.5"/><path class="spin__arc" d="M12 3.5a8.5 8.5 0 018.5 8.5"/></svg>
+          <svg class="i-ok" viewBox="0 0 24 24" focusable="false"><path class="draw" d="M5.5 12.6l4.3 4.3 8.7-9" pathLength="24"/></svg>
+          <svg class="i-err" viewBox="0 0 24 24" focusable="false"><path d="M12 6.5v7.2M12 17.4v.1"/></svg>
+        </span><span class="rbtn__txt">Actualizar datos</span>
+      </button>
+      <span class="sr-only" id="refresh-status" role="status" aria-live="polite"></span>
+      <span class="clock" id="updated" title="Hora de la última actualización de los datos">—</span>
+      <button class="iconbtn" id="theme-toggle" type="button" aria-pressed="false" aria-label="Tema oscuro" title="Cambiar entre tema claro y oscuro">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
+      </button>
+      <button class="btn btn--help" id="help-btn" type="button" aria-haspopup="dialog" title="Recorrido guiado por la pantalla">
+        <span class="helpmark" aria-hidden="true">?</span>Ayuda
+      </button>
+    </div>
+  </header>
+
+  <main class="console">
+    <div class="map-wrap">
+      <div id="map" role="application" aria-label="Mapa de Guerrero con zonas de riesgo, detecciones de incendio y capa satelital de FIRMS. La lista completa de alertas y zonas está en los paneles laterales."></div>
+
+      <div class="hud">
+      <section class="kpis" id="kpis" aria-label="Resumen del sistema">
+        <div class="kpi" style="--i:0">
+          <span class="kpi__head"><span class="kpi__icon kpi__icon--critico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 3c1.6 3 4.5 4.7 4.5 8.3A4.5 4.5 0 0112 16a4.5 4.5 0 01-4.5-4.7c0-2.3 1.7-3.6 2.5-5.8.4 1.5 1.1 2.3 2 3C12.4 6.8 11.6 5 12 3zM8 20h8"/></svg></span><span class="kpi__label">Focos activos</span></span>
+          <span class="kpi__value" id="kpi-focos">—</span>
+          <span class="kpi__sub" id="kpi-focos-sub">en la ventana elegida</span>
+        </div>
+        <div class="kpi" style="--i:1">
+          <span class="kpi__head"><span class="kpi__icon kpi__icon--medio" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21zM12 7.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"/></svg></span><span class="kpi__label">Zonas en alerta</span></span>
+          <span class="kpi__value" id="kpi-zonas">—</span>
+          <span class="kpi__sub" id="kpi-zonas-sub">de 16 zonas de riesgo</span>
+        </div>
+        <div class="kpi" style="--i:2">
+          <span class="kpi__head"><span class="kpi__icon kpi__icon--medio" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M13 3L5 14h6l-1 7 8-11h-6l1-7z"/></svg></span><span class="kpi__label">Energía (FRP)</span></span>
+          <span class="kpi__value" id="kpi-frp">—<b> MW</b></span>
+          <span class="kpi__sub">potencia radiativa total</span>
+        </div>
+        <div class="kpi" style="--i:3">
+          <span class="kpi__head"><span class="kpi__icon kpi__icon--info" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 14l6 6M8.5 8.5l7 7M13 4l2.5 2.5-5 5L8 9l5-5zM15.5 11l2.5 2.5 4-4L19.5 7"/></svg></span><span class="kpi__label">Satélites con datos</span></span>
+          <span class="kpi__value" id="kpi-fuentes">—<b> / 5</b></span>
+          <span class="kpi__sub" id="kpi-fuentes-sub">VIIRS S-NPP / NOAA-20 / NOAA-21 · MODIS · GOES</span>
+        </div>
+        <div class="kpi" style="--i:4">
+          <span class="kpi__head"><span class="kpi__icon kpi__icon--azul" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 4a8 8 0 100 16 8 8 0 000-16zM12 8v4.5l3 1.8"/></svg></span><span class="kpi__label">Última pasada</span></span>
+          <span class="kpi__value" id="kpi-latencia">—</span>
+          <span class="kpi__sub" id="kpi-latencia-sub">desde que pasó el satélite</span>
+        </div>
+        <div class="kpi" style="--i:5">
+          <span class="kpi__head"><span class="kpi__icon kpi__icon--critico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 4l9 16H3L12 4zM12 10v4.5M12 17.2v.1"/></svg></span><span class="kpi__label">Índice de peligro</span></span>
+          <span class="kpi__value" id="kpi-peligro">—<b> / 100</b></span>
+          <div class="peligro-bar" aria-hidden="true"><i id="kpi-peligro-bar" style="width:100%"></i></div>
+        </div>
+      </section>
+    
+      <section class="stamp" id="stamp-wrap" aria-label="Fecha y hora de lo que se está viendo">
+        <div class="stamp__row" id="stamp" aria-live="polite"></div>
+        <div class="stamp__chips">
+          <span class="src-chip" id="src-chip" title="Detecciones de NASA FIRMS (VIIRS, MODIS y GOES). Cada satélite publica con su propio retraso: de unos 20 minutos (GOES) a varias horas (VIIRS y MODIS). Las detecciones no están verificadas en campo.">NASA FIRMS · casi en tiempo real</span>
+          <span class="stale-badge" id="stale-badge" hidden>Datos con retraso</span>
+        </div>
+        <p class="stamp__note" id="stamp-note" hidden></p>
+      </section>
+      </div>
+
+      <div class="abanner" id="abanner" hidden role="alert">
+        <span id="abanner-txt"></span>
+        <button id="abanner-go" type="button">Ver en el mapa</button>
+        <button class="abanner__x" id="abanner-x" type="button" aria-label="Descartar aviso">✕</button>
+      </div>
+
+      <div class="mapdock">
+        <section class="livecard" id="live-card" aria-labelledby="live-title" hidden>
+          <button type="button" class="livecard__head" id="live-toggle" aria-expanded="true" aria-controls="live-body">
+            <span class="livecard__pulse" aria-hidden="true"></span>
+            <h2 class="livecard__title" id="live-title">Última lectura por satélite</h2>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="livecard__body" id="live-body">
+            <table class="livecard__table">
+              <thead><tr><th scope="col">Satélite</th><th scope="col">Última lectura</th><th scope="col">Hace</th></tr></thead>
+              <tbody id="live-tbody"><tr><td colspan="3">Consultando a NASA…</td></tr></tbody>
+            </table>
+            <p class="livecard__foot" id="live-foot"></p>
+          </div>
+        </section>
+
+        <div class="legend" role="group" aria-label="Capas y leyenda del mapa">
+          <button type="button" class="legend__head" id="legend-toggle" aria-expanded="true" aria-controls="legend-body">
+            Capas y leyenda
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="legend__body" id="legend-body">
+          <label class="legend__row legend__row--toggle"><input type="checkbox" id="wms-toggle" checked> Imagen satelital</label>
+          <div class="imgsrc" role="radiogroup" aria-label="Fuente de la imagen satelital">
+            <label class="imgsrc__opt" title="Detecciones de FIRMS (VIIRS y MODIS) acumuladas por día"><input type="radio" name="imgsrc" value="firms" checked><span>FIRMS</span></label>
+            <label class="imgsrc__opt" title="Imagen a color de GOES-East cada 10 minutos: se ven el humo y las nubes"><input type="radio" name="imgsrc" value="color"><span>GOES color</span></label>
+            <label class="imgsrc__opt" title="Temperatura de fuego de GOES-East cada 10 minutos: zonas calientes en rojo"><input type="radio" name="imgsrc" value="calor"><span>GOES calor</span></label>
+          </div>
+          <div class="goesbox" id="goes-box" hidden>
+            <label class="goesbox__row" for="goes-time"><span>Hora de la imagen</span><output id="goes-label" for="goes-time">—</output></label>
+            <input type="range" id="goes-time" min="0" max="1" step="600" aria-describedby="goes-note">
+            <p class="goesbox__note" id="goes-note"></p>
+          </div>
+          <div class="dlbox" id="dl-box" hidden>
+            <h3 class="dlbox__title" id="dl-title"></h3>
+            <ul class="dlbox__list" id="dl-list"></ul>
+            <p class="dlbox__hint" id="dl-hint" hidden></p>
+            <div class="dlbox__new" id="dl-new">
+              <label class="vh" for="dl-what">Qué imágenes descargar</label>
+              <select id="dl-what"></select>
+              <div class="dlbox__row">
+                <label id="dl-step-wrap" hidden>Cada <select id="dl-step"><option value="10">10 min</option><option value="30" selected>30 min</option><option value="60">60 min</option></select></label>
+                <button type="button" class="btn dlbox__go" id="dl-go">Descargar imágenes</button>
+              </div>
+            </div>
+            <div class="dlbar" id="dl-bar" hidden><i></i></div>
+            <p class="dlbox__status" id="dl-status" role="status" aria-live="polite"></p>
+            <button type="button" class="dlbox__del" id="dl-del" hidden>Borrar las guardadas de este día</button>
+          </div>
+          <label class="legend__row legend__row--lbl"><input type="checkbox" id="lbl-toggle" checked> Nombres de comunidades</label>
+          <div class="legend__zones" role="group" aria-label="Estado de las zonas de riesgo">
+            <span class="legend__row"><span class="legend__sw legend__sw--critico" aria-hidden="true"></span>Crítica</span>
+            <span class="legend__row"><span class="legend__sw legend__sw--activo" aria-hidden="true"></span>Activa</span>
+            <span class="legend__row"><span class="legend__sw legend__sw--vigilancia" aria-hidden="true"></span>Vigilancia</span>
+          </div>
+          <div class="legend__row legend__row--det"><span class="legend__dot legend__dot--evento" aria-hidden="true"></span>Detección (tamaño según FRP)</div>
+          <div class="legend__row legend__row--det"><span class="legend__dot legend__dot--critico" aria-hidden="true"></span>Detección crítica (doble anillo)</div>
+          <div class="legend__row legend__row--det"><span class="legend__dot legend__dot--goes" aria-hidden="true"></span>Solo GOES (aprox. ±2 km)</div>
+          <div class="imgsrc vista" role="radiogroup" aria-label="Vista del mapa">
+            <label class="imgsrc__opt" title="Superficie de gravedad interpolada, como un mapa de temperatura"><input type="radio" name="vista" value="calor" checked><span>Mapa de calor</span></label>
+            <label class="imgsrc__opt" title="Cada foco y cada píxel detectado por los satélites"><input type="radio" name="vista" value="detecciones"><span>Detecciones</span></label>
+          </div>
+          <div class="calor-box" id="calor-box">
+            <div class="calor-scale" id="calor-scale" aria-label="Escala de gravedad: energía del fuego en ~20 km, en MW"></div>
+            <label class="calor-op" for="calor-op"><span>Transparencia del calor</span><input type="range" id="calor-op" min="30" max="100" step="5" value="85"></label>
+            <p class="calor-box__note">Energía del fuego en ~20 km (MW). Los números son el máximo de cada zona de riesgo.</p>
+          </div>
+          <div class="det-box" id="det-box" hidden>
+          <label class="legend__row legend__row--pts"><input type="checkbox" id="pts-toggle" checked> Píxeles detectados (tamaño real)</label>
+          <div class="legend__row legend__px"><span class="legend__px-sw legend__px-sw--viirs" aria-hidden="true"></span>VIIRS
+            <span class="legend__px-sw legend__px-sw--modis" aria-hidden="true"></span>MODIS
+            <span class="legend__px-sw legend__px-sw--goes" aria-hidden="true"></span>GOES</div>
+          </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="calor-tip" id="calor-tip" hidden aria-live="off"></div>
+      <div class="selcard" id="selcard" hidden aria-live="polite"></div>
+    </div>
+
+    <div class="loadveil" id="loadveil" role="status" aria-live="polite" aria-hidden="true">
+      <div class="loadcard">
+        <svg class="orb" viewBox="0 0 96 96" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="orb-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--primary)"/><stop offset="1" style="stop-color:var(--ember)"/></linearGradient>
+          </defs>
+          <circle class="orb__track" cx="48" cy="48" r="40"/>
+          <circle class="orb__arc" cx="48" cy="48" r="40" stroke="url(#orb-g)"/>
+          <g class="orb__sat"><circle cx="48" cy="19" r="3.4"/></g>
+          <circle class="orb__inner" cx="48" cy="48" r="30"/>
+          <path class="orb__flame" transform="translate(48 50) scale(2.1) translate(-20 -13.7)" d="M20 6c2 3.6 5.4 5.6 5.4 9.9 0 3.3-2.4 5.6-5.4 5.6s-5.4-2.3-5.4-5.6c0-2.7 2-4.3 3-6.9.4 1.8 1.3 2.8 2.4 3.6.6-2.2-.4-4.4 0-6.6z"/>
+        </svg>
+        <div class="loadcard__txt">
+          <strong id="loadveil-title">Cargando…</strong>
+          <span id="loadveil-sub">Consultando a NASA FIRMS</span>
+        </div>
+        <span class="loadcard__bar" aria-hidden="true"><i></i></span>
+      </div>
+    </div>
+
+    <aside class="sidebar" id="sidebar" aria-label="Paneles de detalle">
+      <div class="sidehead">
+      <div class="tabs" role="tablist" aria-label="Secciones">
+        <button class="tab" role="tab" type="button" id="tab-alertas" aria-selected="true" aria-controls="panel-alertas">
+          Alertas <span class="tab__count" id="count-alertas">0</span>
+        </button>
+        <button class="tab" role="tab" type="button" id="tab-fuentes" aria-selected="false" aria-controls="panel-fuentes">
+          Satélites <span class="tab__count" id="count-fuentes">5</span>
+        </button>
+        <button class="tab" role="tab" type="button" id="tab-zonas" aria-selected="false" aria-controls="panel-zonas">
+          Zonas <span class="tab__count" id="count-zonas">16</span>
+        </button>
+        <button class="tab" role="tab" type="button" id="tab-historial" aria-selected="false" aria-controls="panel-historial">
+          Historial
+        </button>
+      </div>
+      <button class="iconbtn iconbtn--flat" id="panel-hide" type="button" aria-controls="sidebar" aria-expanded="true" aria-label="Ocultar el panel lateral" title="Ocultar el panel para ver más mapa">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      </div>
+
+      <div class="panels">
+        <section class="panel is-active" id="panel-alertas" role="tabpanel" aria-labelledby="tab-alertas" tabindex="0">
+          <div class="panel__head">
+            <h2 class="panel__title">Alertas por zona</h2>
+            <span class="panel__meta" id="alertas-meta"></span>
+          </div>
+          <button class="btn" id="notif-ask" type="button" hidden>Activar avisos del navegador</button>
+          <div id="alertas-list"></div>
+        </section>
+
+        <section class="panel" id="panel-fuentes" role="tabpanel" aria-labelledby="tab-fuentes" tabindex="0">
+          <div class="panel__head">
+            <h2 class="panel__title" id="fuentes-title">Satélites y cuota de datos</h2>
+            <span class="panel__meta" id="fuentes-status"></span>
+          </div>
+          <p class="hint">Aquí ves si cada satélite está enviando datos y cuánta cuota queda en la API de FIRMS. Los datos llegan unas 3 horas después de que pasa el satélite.</p>
+          <div class="tele-grid" id="tele-grid"></div>
+          <table class="stable" id="fuentes-table">
+            <thead><tr>
+              <th scope="col">Satélite</th>
+              <th scope="col">Focos</th>
+              <th scope="col">Última pasada</th>
+              <th scope="col">Estado</th>
+            </tr></thead>
+            <tbody id="fuentes-tbody"></tbody>
+          </table>
+        </section>
+
+        <section class="panel" id="panel-zonas" role="tabpanel" aria-labelledby="tab-zonas" tabindex="0">
+          <div class="panel__head">
+            <h2 class="panel__title">Zonas de riesgo</h2>
+            <span class="panel__meta" id="zonas-meta"></span>
+          </div>
+          <table class="stable" id="zone-table">
+            <thead><tr>
+              <th class="th" data-key="nombre" scope="col" aria-sort="none"><button type="button" class="th__btn">Zona</button></th>
+              <th class="th" data-key="estado" scope="col" aria-sort="descending"><button type="button" class="th__btn">Estado</button></th>
+              <th class="th" data-key="ev" scope="col" aria-sort="none"><button type="button" class="th__btn">Focos 24 h</button></th>
+              <th class="th" data-key="frp" scope="col" aria-sort="none"><button type="button" class="th__btn">FRP</button></th>
+            </tr></thead>
+            <tbody id="zone-tbody"></tbody>
+          </table>
+        </section>
+
+        <section class="panel" id="panel-historial" role="tabpanel" aria-labelledby="tab-historial" tabindex="0">
+          <div class="panel__head">
+            <h2 class="panel__title">Historial por fecha</h2>
+            <span class="panel__meta" id="hist-meta"></span>
+          </div>
+          <div class="hmonth">
+            <button class="iconbtn hmonth__nav" id="hist-prev" type="button" aria-label="Mes anterior">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <label class="hmonth__field">
+              <span class="vh">Mes a consultar</span>
+              <input type="month" id="hist-month" min="2001-01">
+            </label>
+            <button class="iconbtn hmonth__nav" id="hist-next" type="button" aria-label="Mes siguiente">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+          <div class="hsum" id="hist-sum" aria-live="polite"></div>
+          <label class="hfilter"><input type="checkbox" id="hist-only-fire" checked> Solo días con incendios</label>
+          <p class="hint">Toca un día para verlo en el mapa con su imagen satelital, o una hora para ver solo las detecciones de esa pasada. Horas en tiempo del centro de México.</p>
+          <ol class="hdays" id="hist-days"></ol>
+        </section>
+      </div>
+      <div class="disclaimer"><p>
+        Datos de anomalías térmicas casi en tiempo real de <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS<span class="vh"> (se abre en una pestaña nueva)</span></a>,
+        con sensores VIIRS (Suomi-NPP, NOAA-20 y NOAA-21) y MODIS (Terra y Aqua).
+        Una detección indica una fuente de calor compatible con fuego: no está verificada en campo y puede ser una quema agrícola u otra fuente térmica.
+        Mapa base © Esri y colaboradores de OpenStreetMap.
+      </p></div>
+    </aside>
+
+    <button class="panelshow" id="panel-show" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Mostrar el panel lateral" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>Alertas<span class="tab__count" id="count-panel">0</span>
+    </button>
+
+    <div class="bitacora" role="group" aria-label="Bitácora de eventos">
+      <span class="bitacora__label">Bitácora</span>
+      <span class="bitacora__latest" id="bitacora-latest" aria-live="polite">Esperando datos…</span>
+      <button class="bitacora__toggle" id="log-toggle" type="button" aria-expanded="false">Ver registro (<span id="log-count">0</span>)</button>
+    </div>
+  </main>
+
+  <div class="logdrawer" id="logdrawer" hidden>
+    <div class="logdrawer__head">
+      <h2 class="logdrawer__title">Registro de eventos</h2>
+      <button class="btn" id="log-close" type="button">Cerrar registro</button>
+    </div>
+    <div id="logdrawer-list"></div>
+  </div>
+
+</div>
+
+<audio id="alert-sound" src="assets/media/alerta.wav" preload="auto"></audio>
+<script src="assets/vendor/leaflet/1.9.4/leaflet.js"></script>
+<script defer src="assets/js/avisos.js"></script>
+<script defer src="assets/js/format.js"></script>
+<script defer src="assets/js/map.js"></script>
+<script defer src="assets/js/alerts.js"></script>
+<script defer src="assets/js/fuentes.js"></script>
+<script defer src="assets/js/zonas.js"></script>
+<script defer src="assets/js/bitacora.js"></script>
+<script defer src="assets/js/imagenes.js"></script>
+<script defer src="assets/js/calor.js"></script>
+<script defer src="assets/js/historial.js"></script>
+<script defer src="assets/js/cobertura.js"></script>
+<script defer src="assets/js/fecha.js"></script>
+<script defer src="assets/js/carga.js"></script>
+<script defer src="assets/js/vivo.js"></script>
+<script defer src="assets/js/sello.js"></script>
+<script defer src="assets/js/panel.js"></script>
+<script defer src="assets/js/app.js"></script>
+<script defer src="assets/js/tutorial.js"></script>
+</body>
+</html>

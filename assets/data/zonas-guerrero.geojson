@@ -1,0 +1,869 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-el-veladero",
+                "nombre": "P.N. El Veladero",
+                "region": "Acapulco",
+                "peso": 1,
+                "vegetacion": "Selva baja caducifolia",
+                "poblacion_cercana": 180000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.821,
+                            16.8801
+                        ],
+                        [
+                            -99.8491,
+                            16.9106
+                        ],
+                        [
+                            -99.8913,
+                            16.9283
+                        ],
+                        [
+                            -99.9362,
+                            16.9095
+                        ],
+                        [
+                            -99.9437,
+                            16.8704
+                        ],
+                        [
+                            -99.9188,
+                            16.8414
+                        ],
+                        [
+                            -99.8787,
+                            16.8213
+                        ],
+                        [
+                            -99.8386,
+                            16.8437
+                        ],
+                        [
+                            -99.821,
+                            16.8801
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-acapulco-periurbano",
+                "nombre": "Interfaz urbano-forestal Acapulco",
+                "region": "Acapulco",
+                "peso": 1,
+                "vegetacion": "Pastizal y matorral periurbano",
+                "poblacion_cercana": 250000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.7395,
+                            16.9073
+                        ],
+                        [
+                            -99.7579,
+                            16.947
+                        ],
+                        [
+                            -99.8085,
+                            16.9488
+                        ],
+                        [
+                            -99.8535,
+                            16.9333
+                        ],
+                        [
+                            -99.8738,
+                            16.8911
+                        ],
+                        [
+                            -99.838,
+                            16.8576
+                        ],
+                        [
+                            -99.7893,
+                            16.8387
+                        ],
+                        [
+                            -99.7538,
+                            16.8712
+                        ],
+                        [
+                            -99.7395,
+                            16.9073
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-laguna-tres-palos",
+                "nombre": "Laguna de Tres Palos - Barra Vieja",
+                "region": "Acapulco",
+                "peso": 0.7,
+                "vegetacion": "Manglar y palmar",
+                "poblacion_cercana": 12000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.5751,
+                            16.786
+                        ],
+                        [
+                            -99.6147,
+                            16.8278
+                        ],
+                        [
+                            -99.6996,
+                            16.8317
+                        ],
+                        [
+                            -99.76,
+                            16.8049
+                        ],
+                        [
+                            -99.7856,
+                            16.7639
+                        ],
+                        [
+                            -99.7419,
+                            16.7249
+                        ],
+                        [
+                            -99.6614,
+                            16.7212
+                        ],
+                        [
+                            -99.5787,
+                            16.7371
+                        ],
+                        [
+                            -99.5751,
+                            16.786
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-canon-zopilote",
+                "nombre": "Cañón del Zopilote",
+                "region": "Centro",
+                "peso": 0.9,
+                "vegetacion": "Selva baja espinosa",
+                "poblacion_cercana": 15000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.314,
+                            17.7143
+                        ],
+                        [
+                            -99.3423,
+                            17.881
+                        ],
+                        [
+                            -99.436,
+                            17.9426
+                        ],
+                        [
+                            -99.5332,
+                            17.9222
+                        ],
+                        [
+                            -99.5871,
+                            17.7834
+                        ],
+                        [
+                            -99.5568,
+                            17.6316
+                        ],
+                        [
+                            -99.4765,
+                            17.5322
+                        ],
+                        [
+                            -99.3638,
+                            17.5493
+                        ],
+                        [
+                            -99.314,
+                            17.7143
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-omiltemi",
+                "nombre": "P.E. Omiltemi",
+                "region": "Centro",
+                "peso": 0.9,
+                "vegetacion": "Bosque de pino-encino",
+                "poblacion_cercana": 8000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.613,
+                            17.5332
+                        ],
+                        [
+                            -99.6353,
+                            17.5793
+                        ],
+                        [
+                            -99.6901,
+                            17.6107
+                        ],
+                        [
+                            -99.7604,
+                            17.5959
+                        ],
+                        [
+                            -99.787,
+                            17.5468
+                        ],
+                        [
+                            -99.7648,
+                            17.5006
+                        ],
+                        [
+                            -99.7103,
+                            17.4664
+                        ],
+                        [
+                            -99.6414,
+                            17.4857
+                        ],
+                        [
+                            -99.613,
+                            17.5332
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-chilpancingo-periurbano",
+                "nombre": "Periferia de Chilpancingo",
+                "region": "Centro",
+                "peso": 0.8,
+                "vegetacion": "Encinar y pastizal",
+                "poblacion_cercana": 190000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.4341,
+                            17.5593
+                        ],
+                        [
+                            -99.4586,
+                            17.5936
+                        ],
+                        [
+                            -99.499,
+                            17.6215
+                        ],
+                        [
+                            -99.5401,
+                            17.5943
+                        ],
+                        [
+                            -99.5604,
+                            17.5607
+                        ],
+                        [
+                            -99.5459,
+                            17.5228
+                        ],
+                        [
+                            -99.5009,
+                            17.5047
+                        ],
+                        [
+                            -99.4597,
+                            17.5255
+                        ],
+                        [
+                            -99.4341,
+                            17.5593
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-sierra-filo-mayor",
+                "nombre": "Sierra de Guerrero - Filo Mayor",
+                "region": "Sierra",
+                "peso": 1,
+                "vegetacion": "Bosque de pino y mesófilo",
+                "poblacion_cercana": 30000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.9139,
+                            17.8049
+                        ],
+                        [
+                            -100.0027,
+                            17.9699
+                        ],
+                        [
+                            -100.1538,
+                            17.9954
+                        ],
+                        [
+                            -100.2644,
+                            17.8906
+                        ],
+                        [
+                            -100.3413,
+                            17.7241
+                        ],
+                        [
+                            -100.225,
+                            17.5975
+                        ],
+                        [
+                            -100.093,
+                            17.5097
+                        ],
+                        [
+                            -99.9573,
+                            17.6139
+                        ],
+                        [
+                            -99.9139,
+                            17.8049
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-sierra-tecpan-tlacotepec",
+                "nombre": "Sierra de Tecpan - Tlacotepec",
+                "region": "Sierra",
+                "peso": 0.9,
+                "vegetacion": "Bosque de pino-encino",
+                "poblacion_cercana": 22000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.9821,
+                            17.3832
+                        ],
+                        [
+                            -100.047,
+                            17.521
+                        ],
+                        [
+                            -100.177,
+                            17.5872
+                        ],
+                        [
+                            -100.2778,
+                            17.479
+                        ],
+                        [
+                            -100.3161,
+                            17.349
+                        ],
+                        [
+                            -100.2741,
+                            17.2074
+                        ],
+                        [
+                            -100.1446,
+                            17.1632
+                        ],
+                        [
+                            -100.0432,
+                            17.2519
+                        ],
+                        [
+                            -99.9821,
+                            17.3832
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-costa-grande-tecpan-petatlan",
+                "nombre": "Costa Grande: Tecpan - Petatlán",
+                "region": "Costa Grande",
+                "peso": 0.85,
+                "vegetacion": "Selva mediana y palmar",
+                "poblacion_cercana": 90000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -100.5269,
+                            17.3899
+                        ],
+                        [
+                            -100.6512,
+                            17.576
+                        ],
+                        [
+                            -100.9603,
+                            17.625
+                        ],
+                        [
+                            -101.2581,
+                            17.5793
+                        ],
+                        [
+                            -101.4302,
+                            17.4102
+                        ],
+                        [
+                            -101.2934,
+                            17.227
+                        ],
+                        [
+                            -100.9901,
+                            17.1689
+                        ],
+                        [
+                            -100.6661,
+                            17.2043
+                        ],
+                        [
+                            -100.5269,
+                            17.3899
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-coyuca-benitez",
+                "nombre": "Coyuca de Benítez - Pie de la Cuesta",
+                "region": "Costa Grande",
+                "peso": 0.85,
+                "vegetacion": "Palmar y matorral costero",
+                "poblacion_cercana": 45000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.8527,
+                            16.9808
+                        ],
+                        [
+                            -99.8569,
+                            17.0709
+                        ],
+                        [
+                            -99.965,
+                            17.1058
+                        ],
+                        [
+                            -100.0691,
+                            17.0879
+                        ],
+                        [
+                            -100.1133,
+                            17.0172
+                        ],
+                        [
+                            -100.1075,
+                            16.9374
+                        ],
+                        [
+                            -100.0141,
+                            16.8979
+                        ],
+                        [
+                            -99.9064,
+                            16.9072
+                        ],
+                        [
+                            -99.8527,
+                            16.9808
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-zihuatanejo-ixtapa",
+                "nombre": "Lomeríos Zihuatanejo - Ixtapa",
+                "region": "Costa Grande",
+                "peso": 0.8,
+                "vegetacion": "Selva baja caducifolia",
+                "poblacion_cercana": 120000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -101.4779,
+                            17.6591
+                        ],
+                        [
+                            -101.5076,
+                            17.7167
+                        ],
+                        [
+                            -101.579,
+                            17.7368
+                        ],
+                        [
+                            -101.6541,
+                            17.7205
+                        ],
+                        [
+                            -101.6786,
+                            17.6609
+                        ],
+                        [
+                            -101.6492,
+                            17.6059
+                        ],
+                        [
+                            -101.5812,
+                            17.5714
+                        ],
+                        [
+                            -101.5026,
+                            17.5967
+                        ],
+                        [
+                            -101.4779,
+                            17.6591
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-tierra-caliente",
+                "nombre": "Tierra Caliente (Cd. Altamirano - Coyuca de Catalán)",
+                "region": "Tierra Caliente",
+                "peso": 0.9,
+                "vegetacion": "Selva baja y pastizal inducido",
+                "poblacion_cercana": 60000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -100.4181,
+                            18.3718
+                        ],
+                        [
+                            -100.5338,
+                            18.5021
+                        ],
+                        [
+                            -100.727,
+                            18.4977
+                        ],
+                        [
+                            -100.8588,
+                            18.4137
+                        ],
+                        [
+                            -100.89,
+                            18.2858
+                        ],
+                        [
+                            -100.8138,
+                            18.1509
+                        ],
+                        [
+                            -100.6245,
+                            18.1575
+                        ],
+                        [
+                            -100.4445,
+                            18.2138
+                        ],
+                        [
+                            -100.4181,
+                            18.3718
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-taxco-norte",
+                "nombre": "Taxco - Buenavista de Cuéllar",
+                "region": "Norte",
+                "peso": 0.8,
+                "vegetacion": "Bosque de encino",
+                "poblacion_cercana": 55000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.4311,
+                            18.5477
+                        ],
+                        [
+                            -99.4681,
+                            18.6315
+                        ],
+                        [
+                            -99.5418,
+                            18.6895
+                        ],
+                        [
+                            -99.6455,
+                            18.6735
+                        ],
+                        [
+                            -99.6828,
+                            18.5814
+                        ],
+                        [
+                            -99.6553,
+                            18.4961
+                        ],
+                        [
+                            -99.5804,
+                            18.4254
+                        ],
+                        [
+                            -99.4907,
+                            18.477
+                        ],
+                        [
+                            -99.4311,
+                            18.5477
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-iguala-cocula",
+                "nombre": "Iguala - Cocula",
+                "region": "Norte",
+                "peso": 0.8,
+                "vegetacion": "Selva baja espinosa",
+                "poblacion_cercana": 150000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -99.3122,
+                            18.3232
+                        ],
+                        [
+                            -99.3604,
+                            18.4041
+                        ],
+                        [
+                            -99.4526,
+                            18.472
+                        ],
+                        [
+                            -99.5632,
+                            18.4218
+                        ],
+                        [
+                            -99.6308,
+                            18.347
+                        ],
+                        [
+                            -99.6115,
+                            18.2458
+                        ],
+                        [
+                            -99.4875,
+                            18.1971
+                        ],
+                        [
+                            -99.3731,
+                            18.2447
+                        ],
+                        [
+                            -99.3122,
+                            18.3232
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-la-montana-tlapa",
+                "nombre": "La Montaña (Tlapa - Metlatónoc)",
+                "region": "Montaña",
+                "peso": 0.85,
+                "vegetacion": "Bosque de pino-encino y mesófilo",
+                "poblacion_cercana": 80000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -98.2961,
+                            17.3421
+                        ],
+                        [
+                            -98.3598,
+                            17.5428
+                        ],
+                        [
+                            -98.5125,
+                            17.6064
+                        ],
+                        [
+                            -98.6617,
+                            17.5217
+                        ],
+                        [
+                            -98.7461,
+                            17.3043
+                        ],
+                        [
+                            -98.6411,
+                            17.1057
+                        ],
+                        [
+                            -98.4853,
+                            16.9934
+                        ],
+                        [
+                            -98.3476,
+                            17.1395
+                        ],
+                        [
+                            -98.2961,
+                            17.3421
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "gro-costa-chica-marquelia",
+                "nombre": "Costa Chica: San Marcos - Marquelia",
+                "region": "Costa Chica",
+                "peso": 0.8,
+                "vegetacion": "Selva baja y sabana",
+                "poblacion_cercana": 70000
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -98.715,
+                            16.7201
+                        ],
+                        [
+                            -98.8108,
+                            16.865
+                        ],
+                        [
+                            -99.0499,
+                            16.9313
+                        ],
+                        [
+                            -99.2813,
+                            16.8709
+                        ],
+                        [
+                            -99.4506,
+                            16.7506
+                        ],
+                        [
+                            -99.3413,
+                            16.604
+                        ],
+                        [
+                            -99.1027,
+                            16.5187
+                        ],
+                        [
+                            -98.8565,
+                            16.5911
+                        ],
+                        [
+                            -98.715,
+                            16.7201
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}
